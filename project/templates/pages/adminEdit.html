@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+    
+<head>
+    {% load static %}
+
+    <link rel="stylesheet" href="{%static 'css/adminEdit.css'%}">
+    <title>Book Corner</title>
+    <meta charset="utf-8">
+    <meta name="description" content="This is online book library , enjoy reading with us ">
+</head>
+
+<body>
+
+
+    <nav class = "nav">
+        <a href="/adminAdd.html" ><b>Add book</b></a>
+        <!-- <a href="deleteBook.html"><b>Delete book</b></a> -->
+        <a  id = "edit" href="/adminEdit.html" ><b>Edit book</b></a>
+        <a href="/adminlist.html" ><b>View list</b></a>
+        <a href="/index.html"><b>Logout</b></a>
+    </nav>
+
+    <div class="content">
+        <h2 style="text-align: center; font-size: 35px;">Edit Book</h2>
+        <form id="form" method="post">
+            {% csrf_token %}
+            <label class = "labels">Book ID</label>
+            <input data-type='Book ID' style = " margin-left: 60px;" name = 'book_id'  value="{{book.book_id}}" class="input" type="text" placeholder="    book id" >
+            <span style="color: red; margin-left: 160px;"></span>
+            <br>
+
+            <label class = "labels"> Book Name</label>
+            <input data-type='Book Name' name = 'book_name' value="{{book.book_name}}" style = " margin-left: 30px;" class="input" type="text" placeholder="    book name" >
+            <span style="color: #ff0000; margin-left: 160px;"></span>
+            <br>
+                
+           
+            <label class = "labels"> Book Autor</label>
+            <input data-type='Book Author'  name = 'book_author' value="{{book.book_author}}" style = " margin-left: 30px;" class="input" type="text" placeholder="    book author" >
+            <span style="color: red; margin-left: 160px;"></span>
+            <br>
+
+
+            <label class = "labels"> Book categor</label>
+            <input data-type='Book category' name = 'book_category'  value="{{book.book_category}}" style = " margin-left: 15px;" class="input" type="text" placeholder="    book category" >
+            <span style="color: red; margin-left: 140px;"></span>
+            <br>
+
+
+
+
+
+
+            <input class="submit" type="submit" value="Edit" onclick="storage()">
+
+        </form>
+    </div>
+    <!-- <script src="adminedit.js"></script> -->
+</body>
+
+</html>

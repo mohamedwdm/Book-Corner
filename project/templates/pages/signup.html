@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link href="{%static 'css/signup.css'%}" rel="stylesheet">
+    <meta charset="UTF-8">
+
+
+    <title>Book Corner</title>
+    <link href="/static/image/img6.jpg" rel="icon" type="jpg">
+</head>
+
+<body>
+
+
+
+
+    <div class="center">
+
+        <form id="form" method="post">
+            {% csrf_token %}
+            <h1>Sign-Up</h1>
+
+
+
+            <div class="txt_field">
+                <label for="UN">User Name</label>
+                <input name="username"  class="basicinput" data-type='user name' id="UN" placeholder="                user name"
+                    type="text" style="margin-left: 55px">
+                <span style="color: red; margin-left: 160px;"></span>
+
+            </div>
+
+            <div class="txt_field">
+                <label for="Psw">Password</label>
+                <div style="position:absolute ; width: 20px; left: 88%;top: 30%"><img id="img" onclick="showpassword()"
+                        src="/static/image/eye-close.png" style="width: 20px;cursor: pointer;"></div>
+                <input name="password"  class="basicinput" data-type='password' id="Psw" placeholder="                password"
+                    type="password" style="margin-left: 65px ">
+                <span style="color: red; margin-left: 160px;"></span>
+
+
+            </div>
+            <div class="txt_field">
+                <label for="cpsw" style="margin-left: -10px">confirm password</label>
+                <div style="position:absolute ; width: 20px; left: 88%;top: 30%"><img id="img2"
+                        onclick="showcpassword()" src="/static/image/eye-close.png" style="width: 20px;cursor: pointer;"></div>
+                <input name="cpassword" class="basicinput" data-type='confirm password' id="cpsw" placeholder="                password"
+                    type="password" style="margin-left: 10px ">
+                <span style="color: red; margin-left: 160px;"></span>
+
+
+            </div>
+            <div class="txt_field">
+                <label>Email</label>
+                <input name="email" data-type="Email" class="basicinput" type="email" placeholder="                  Email"
+                    style="margin-left: 90px" id="email">
+                <span style="color: red; margin-left: 160px;"></span>
+
+            </div>
+
+
+            <div class="txt_field">
+                <label for="rl">Role</label>
+                <input name="role"  class="basicinput"  id="rl" placeholder="                   role"
+                    type="text" style="margin-left: 100px">
+                <span style="color: red; margin-left: 160px;"></span>
+
+            </div>
+
+            <div class="links login"> have an account <br><a href="index.html"> &nbsp;&nbsp;login</a>&nbsp;&nbsp; here </div>
+            <!-- <div style="margin-top: 5px; ; margin-left: 10px">Is Admin?<input id="checkbox" onclick="CheckBox()"
+                 name="is_admin"   type="checkbox"></div>
+                   
+                    <div style="margin-top: 5px; ; margin-left: 10px">Is User?&nbsp &nbsp<input id="checkbox" onclick="CheckBox()"
+                    name="is_user"    type="checkbox"></div>         -->
+
+            <!-- <button id="signup" onclick="storage()" type="submit"><a href="index.html" id="move" style="color: white;text-decoration: none; ">Signup</button> -->
+            <input type="submit" id="signup" value="sign up">
+
+
+            {% if error_message %}
+             <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
+       
+
+        </form>
+
+    </div>
+
+    {% load static %}
+    <script src="{%static 'js/signup.js'%}"></script> 
+
+</body>
+
+</html>

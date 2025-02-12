@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>Book Corner</title>
+    <meta charset="utf-8">
+    <meta name="description" content="This is online book library , enjoy reading with us ">
+    <link rel="stylesheet" href="{%static 'css/userlist_style.css'%}">
+</head>
+<body>
+    
+    <nav>
+        <!-- <a href="userSearch.html"><b>Advanced Search</b></a> -->
+        <a href="userList.html" id="list" ><b> Book List</b> </a>
+        <a href="borrowedBooks.html"><b>Borrowed Books</b></a>
+        <a href="index.html"><b>Logout</b></a>
+    </nav>
+
+
+     <form method="post">
+          {% csrf_token %}
+         <div class="search-wrapper">
+             <label for="Search">search books</label>
+             <input type="search" class="bsearch" id="bsearch" name="bsearch" >
+         </div>       
+    </form>
+    <div class="container" style ="position:absolute; top: 26%; left: 41%; background-color: white; width: 200px;" >
+        <div id="booklist" style="text-align: center;">
+        
+        </div>
+        
+     </div>
+
+
+
+
+    {% block content %}
+    {% for x in book %}
+
+    <div class="book" style="display: inline-block;">
+        <img alt="Book 2 Cover" class="cover" src="/static/image/book2.jpg"> <br>
+        Title: <h3>{{x.book_name}}</h3>  
+        ID :&nbsp;&nbsp; {{x.book_id}} <br>
+        Author:&nbsp;&nbsp;&nbsp;&nbsp;{{x.book_author}} <br>
+        Category:&nbsp;&nbsp; {{x.book_category}} <br>
+
+        <p id="status">Available</p>
+        <button id="borrow" type="submit"><a href="{% url 'borrowebook' book_id=x.id %}" style="text-decoration: none;">borrow</a></button>
+    
+    </div>
+    
+       
+    
+    {% endfor %}
+    
+    {% endblock content %}
+
+    {% load static %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+     
+    $('#bsearch').on('input',function(){
+        var searchval = $(this).val();
+          //ajax call
+        // Toggle visibility of booklist div based on input value
+         if (searchval.trim() === '') {
+             $('#booklist').hide();
+            } else {
+                    $('#booklist').show();
+                }
+
+          $.ajax({
+            url: '{% url "ajax_view_foruser" %}',
+            method: 'POST',
+            data:{
+              'bsearch': searchval,
+              'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            
+            },
+            success: function(response){
+             var book = Array.isArray(response) ? response :[response];
+
+             $('#booklist').empty();
+             if(JSON.parse(book[0].input_value).length > 0){
+               JSON.parse(book[0].input_value).forEach(function(book){
+
+                var bookname = book.fields.book_name;
+                var bookelement = $('<p>').text('book_name :' + bookname );
+                $('#booklist').append(bookelement);    
+               })
+
+
+
+
+             }
+
+            }
+
+          })
+
+    }) 
+     $('#booklist').hide();
+
+    });
+
+    function search() {
+            let filter = document.getElementById('bsearch').value.toUpperCase();
+            let item = document.querySelectorAll('.book');
+            let l = document.getElementsByTagName('h3');
+            for (var i = 0; i < l.length; i++) {
+                let a = item[i].getElementsByTagName('h3')[0];
+                let value = a.innerHTML || a.innerText || a.textContent;
+                if (value.toUpperCase().indexOf(filter) > -1) {
+                    item[i].style.display = "inline-block";
+                } else {
+                    item[i].style.display = "none";
+                }
+            }
+        }
+
+        document.getElementById('bsearch').addEventListener('keyup', search);
+
+
+
+</script>
+    
+
+    <script src="{%static 'js/UserSearch&Availability.js'%}"></script>
+    
+</body>
+</html>
+<!-- <div class="book-list">
+
+    <div class="book" id="newbook" style="display: none;"></div>
+  
+    <div class="book">
+        <img src="/static/image/fairview.jpg" class="cover" alt=""> <br>
+        title: <h3>fairview</h3>  
+        ID : 444 <br>
+
+        author: Jackie Sibblies Drury<br>
+        category: drama <br>
+        <p id="status">Available</p>
+        
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+    </div>
+
+    <div class="book">
+        <img src="/static/image/book2.jpg" class="cover" alt="Book 2 Cover"> <br>
+        Title: <h3>To Kill a Mockingbird</h3> 
+        ID : 445 <br>
+
+        Author: Harper Lee <br>
+        Category: Fiction <br>
+        <p id="status">Available</p>
+
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+    </div>
+
+    <div class="book">
+        <img src="/static/image/book3.jpeg" class="cover" alt="Book 3 Cover"> <br>
+        Title: <h3>1984</h3> <br>
+        Author: George Orwell <br>
+        Category: Dystopian Fiction <br>
+        <p id="status">Available</p>
+
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+    </div>
+
+    <div class="book">
+        <img src="/static/image/book4.jpeg" class="cover" alt="Book 4 Cover"> <br>
+        title: <h3> Pride and Prejudice</h3> 
+        ID : 446 <br>
+
+        Author: Jane Austen <br>
+        Category: Romance <br>
+        <p id="status">Available</p>
+
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+    </div>
+
+    <div class="book">
+        <img src="/static/image/book5.jpeg" class="cover" alt="Book 5 Cover"> <br>
+        Title: <h3>The Great Gatsby</h3>  
+        ID : 447 <br>
+
+        Author: F. Scott Fitzgerald <br>
+        Category: Classic Fiction <br>
+        <p id="status">Available</p>
+
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+    </div>
+
+    <div class="book">
+        <img src="/static/image/book6.jpeg" class="cover" alt="Book 6 Cover"> <br>
+        Title: <h3> Harry Potter and the Philosopher's Stone </h3>  
+        ID : 448 <br>
+
+        Author: J.K. Rowling <br>
+        Category: Fantasy <br>
+        <p id="status">Available</p>
+
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+
+    </div>
+
+    <div class="book">
+        <img src="/static/image/book7.jpeg" class="cover" alt="Book 7 Cover"> <br>
+        Title: <h3>The Catcher in the Rye</h3> 
+        ID : 449 <br>
+
+        Author: J.D. Salinger <br>
+        Category: Coming-of-age Fiction <br>
+        <p id="status">Available</p>
+
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+    </div>
+
+    <div class="book">
+        <img src="/static/image/book8.jpeg" class="cover" alt="Book 8 Cover"> <br>
+        Title: <h3>The Hobbit</h3>  
+        ID : 450 <br>
+
+        Author: J.R.R. Tolkien <br>
+        Category: Fantasy <br>
+        <p id="status">Available</p>
+
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+    </div>
+
+    <div class="book">
+        <img src="/static/image/book9.jpeg" class="cover" alt="Book 10 Cover"> <br>
+        Title: <h3>The Diary of a Young Girl</h3> 
+        ID : 451 <br>
+
+        Author: Anne Frank <br>
+        Category: Autobiography <br>
+        <p id="status">Available</p>
+
+        <button id="borrow" onclick="Availability(this)">Borrow</button>
+
+    </div>
+
+
+
+</div> -->

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Corner</title>
+    <link rel="stylesheet" href="{%static 'css/Borrowed-style.css'%}">
+    
+
+</head>
+<body>
+    <nav>
+        <!-- <a href="userSearch.html"><b>Advanced Search</b></a> -->
+        <a href="/userList.html"><b> Book List</b></a>
+        <a href="/borrowedBooks.html" id="list"><b>Borrowed Books</b></a>
+        <a href="/index.html"><b>Logout</b></a>
+    </nav>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="search-wrapper">
+        <label for="Search">search books</label>
+        <input type="search" id="bsearch" class ="bsearch" >
+         </div>
+    </form>
+ 
+
+    <div class="container" style ="position:absolute; top: 26%; left: 41%; background-color: white; width: 200px;" >
+        <div id="booklist" style="text-align: center;">
+        
+        </div>
+        
+     </div>
+
+
+
+
+
+    {% block content %}
+    {% for x in book %}
+
+    <div class="book" style="display: inline-block;">
+        <img alt="Book 2 Cover" class="cover" src="/static/image/book2.jpg"> <br>
+        Title: <h3>{{x.book_name}}</h3>  
+        ID :&nbsp;&nbsp; {{x.book_id}} <br>
+        Author:&nbsp;&nbsp;&nbsp;&nbsp;{{x.book_author}} <br>
+        Category:&nbsp;&nbsp; {{x.book_category}} <br>
+
+        
+    </div>
+    
+       
+    
+    {% endfor %}
+    
+    {% endblock content %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+         
+        $('#bsearch').on('input',function(){
+            var searchval = $(this).val();
+              //ajax call
+            // Toggle visibility of booklist div based on input value
+             if (searchval.trim() === '') {
+                 $('#booklist').hide();
+                } else {
+                        $('#booklist').show();
+                    }
+    
+              $.ajax({
+                url: '{% url "ajax_view_forBorrowed" %}',
+                method: 'POST',
+                data:{
+                  'bsearch': searchval,
+                  'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+                
+                },
+                success: function(response){
+                 var book = Array.isArray(response) ? response :[response];
+    
+                 $('#booklist').empty();
+                 if(JSON.parse(book[0].input_value).length > 0){
+                   JSON.parse(book[0].input_value).forEach(function(book){
+    
+                    var bookname = book.fields.book_name;
+                    var bookelement = $('<p>').text('book_name :' + bookname );
+                    $('#booklist').append(bookelement);    
+                   })
+    
+    
+    
+    
+                 }
+    
+                }
+    
+              })
+    
+        }) 
+         $('#booklist').hide();
+    
+        });
+    
+        function search() {
+                let filter = document.getElementById('bsearch').value.toUpperCase();
+                let item = document.querySelectorAll('.book');
+                let l = document.getElementsByTagName('h3');
+                for (var i = 0; i < l.length; i++) {
+                    let a = item[i].getElementsByTagName('h3')[0];
+                    let value = a.innerHTML || a.innerText || a.textContent;
+                    if (value.toUpperCase().indexOf(filter) > -1) {
+                        item[i].style.display = "inline-block";
+                    } else {
+                        item[i].style.display = "none";
+                    }
+                }
+            }
+    
+            document.getElementById('bsearch').addEventListener('keyup', search);
+    
+    
+    
+    </script>
+        
+    
+        <script src="{%static 'js/UserSearch&Availability.js'%}"></script>
+        
+    </body>
+    </html>
+
+
+
+
+
+
+
+
+
+
+
+    {% load static %}
+  <script src="{%static 'js/borrwedbook.js'%}"></script>
+</body>
+</html>
+
+
+
+<!-- 
+<div class="book-list">
+
+    <div class="book" id="newbook" style="display: none;"></div>
+
+    <div class="book">
+        <img src="fairview.jpg" class="cover" alt=""> <br>
+        title: <h3>fairview</h3>  <br>
+        author: Jackie Sibblies Drury<br>
+        category: drama <br>
+    </div>
+
+    <div class="book">
+        <img src="book2.jpg" class="cover" alt="Book 2 Cover"> <br>
+        Title: <h3>To Kill a Mockingbird</h3>  <br>
+        Author: Harper Lee <br>
+        Category: Fiction
+    </div>
+
+    <div class="book">
+        <img src="book3.jpeg" class="cover" alt="Book 3 Cover"> <br>
+        Title: <h3>1984</h3> <br>
+        Author: George Orwell <br>
+        Category: Dystopian Fiction
+    </div>
+
+    <div class="book">
+        <img src="book4.jpeg" class="cover" alt="Book 4 Cover"> <br>
+        title: <h3> Pride and Prejudice</h3> <br>
+        Author: Jane Austen <br>
+        Category: Romance
+    </div> -->

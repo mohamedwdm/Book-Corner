@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>Book Corner</title>
+    <meta charset="utf-8">
+    <meta content="This is online book library , enjoy reading with us " name="description">
+    <link href="{%static 'css/adminlist.css'%}" rel="stylesheet">
+
+</head>
+<body>
+
+    {% load static %}
+
+
+
+<nav>
+    <a href="adminAdd.html"><b>Add Book</b></a>
+    <!-- <a href="deleteBook.html" id="delete"><b>Delete Book</b></a> -->
+    <!-- <a href="adminEdit.html"><b>Edit Book</b></a> -->
+    <a id="list" href="adminlist.html"><b>View List</b></a>
+    <a href="index.html"><b>Logout</b></a>
+</nav>
+<form method="post">
+    {% csrf_token %}
+
+<div class="search-wrapper">
+
+    <label style="color:white">search books</label>
+    <input name="search" id="search"   type="search" placeholder="                 search for book">
+</div>
+
+
+</form>
+
+<div class="container" style ="position:absolute; top: 26%; left: 41%; background-color: white; width: 200px;" >
+<div id="booklist" style="text-align: center;">
+
+</div>
+
+</div>
+
+
+
+
+
+{% block content %}
+{% for x in book %}
+
+<div class="book" style="display: inline-block;">
+    <img alt="Book 2 Cover" class="cover" src="/static/image/book2.jpg"> <br>
+    Title: <h3>{{x.book_name}}</h3>  
+    ID :&nbsp;&nbsp; {{x.book_id}} <br>
+    Author:&nbsp;&nbsp;&nbsp;&nbsp;{{x.book_author}} <br>
+    Category:&nbsp;&nbsp; {{x.book_category}} <br>
+    <button class="in" type="submit"><a href="{% url 'adminEdit' book_id=x.id %}" style="text-decoration: none;">Edit</a></button>
+    <button class="del" type="submit" ><a href="{% url 'deletebook' x.id %}" style="text-decoration: none;">Delete</a></button>
+
+</div>
+
+   
+
+{% endfor %}
+
+{% endblock content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+     
+    $('#search').on('input',function(){
+        var searchval = $(this).val();
+          //ajax call
+        // Toggle visibility of booklist div based on input value
+         if (searchval.trim() === '') {
+             $('#booklist').hide();
+            } else {
+                    $('#booklist').show();
+                }
+
+          $.ajax({
+            url: '{% url "ajax_view" %}',
+            method: 'POST',
+            data:{
+              'search': searchval,
+              'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            
+            },
+            success: function(response){
+             var book = Array.isArray(response) ? response :[response];
+
+             $('#booklist').empty();
+             if(JSON.parse(book[0].input_value).length > 0){
+               JSON.parse(book[0].input_value).forEach(function(book){
+
+                var bookname = book.fields.book_name;
+                var bookelement = $('<p>').text('book_name :' + bookname );
+                $('#booklist').append(bookelement);    
+               })
+
+
+
+
+             }
+
+            }
+
+          })
+
+    }) 
+     $('#booklist').hide();
+
+    });
+
+    function search() {
+            let filter = document.getElementById('search').value.toUpperCase();
+            let item = document.querySelectorAll('.book');
+            let l = document.getElementsByTagName('h3');
+            for (var i = 0; i < l.length; i++) {
+                let a = item[i].getElementsByTagName('h3')[0];
+                let value = a.innerHTML || a.innerText || a.textContent;
+                if (value.toUpperCase().indexOf(filter) > -1) {
+                    item[i].style.display = "inline-block";
+                } else {
+                    item[i].style.display = "none";
+                }
+            }
+        }
+
+        document.getElementById('search').addEventListener('keyup', search);
+
+
+
+</script>
+
+
+</div>
+<script src="{%static 'js/adminlist.js'%}"></script>
+
+</body>
+</html>
+<!-- 
+<div class="book-list">
+
+    <div class="book" id="newbook" style="display: none;"></div>
+
+    <div class="book">
+        <img alt="" class="cover" src="/static/image/fairview.jpg"> <br>
+        title: <h3>fairview</h3> 
+          ID : 444 <br>
+        author: Jackie Sibblies Drury<br>
+        category: drama <br>
+        <button class="in" type="text" ><a href="pagebook1.html" style="text-decoration: none;" target="_blank">Edit</a></button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+
+    </div>
+
+    <div class="book">
+        <img alt="Book 2 Cover" class="cover" src="/static/image/book2.jpg"> <br>
+        Title: <h3>To Kill a Mockingbird</h3>  
+        ID : 445 <br>
+        Author: Harper Lee <br>
+        Category: Fiction <br>
+        <button class="in" type="text" ><a href="/static/image/pagebook2.html" style="text-decoration: none;" target="_blank">Edit</a></button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+
+    </div>
+
+    <div class="book">
+        <img alt="Book 3 Cover" class="cover" src="/static/image/book3.jpeg"> <br>
+        Title: <h3>1984</h3> 
+        ID : 446 <br>
+        Author: George Orwell <br>
+        Category: Dystopian Fiction <br>
+        <button class="in" type="text" >Edit</button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+
+    </div>
+
+    <div class="book">
+        <img alt="Book 4 Cover" class="cover" src="/static/image/book4.jpeg"> <br>
+        title: <h3> Pride and Prejudice</h3> 
+         ID : 447 <br>
+        Author: Jane Austen <br>
+        Category: Romance <br>
+        <button class="in" type="text" >Edit</button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+
+    </div>
+
+    <div class="book">
+        <img alt="Book 5 Cover" class="cover" src="/static/image/book5.jpeg"> <br>
+        Title: <h3>The Great Gatsby</h3>  
+         ID : 448 <br>
+        Author: F. Scott Fitzgerald <br>
+        Category: Classic Fiction <br>
+        <button class="in" type="text" >Edit</button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+
+    </div>
+
+    <div class="book">
+        <img alt="Book 6 Cover" class="cover" src="/static/image/book6.jpeg"> <br>
+        Title: <h3> Harry Potter and the Philosopher's Stone </h3>  <br>
+        Author: J.K. Rowling <br>
+        Category: Fantasy <br>
+        <button class="in" type="text" >Edit</button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+
+    </div>
+
+    <div class="book">
+        <img alt="Book 7 Cover" class="cover" src="/static/image/book7.jpeg"> <br>
+        Title: <h3>The Catcher in the Rye</h3> 9
+        ID : 440 <br>
+        Author: J.D. Salinger <br>
+        Category: Coming-of-age Fiction <br>
+        <button class="in" type="text" >Edit</button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+
+    </div>
+
+    <div class="book">
+        <img alt="Book 8 Cover" class="cover" src="/static/image/book8.jpeg"> <br>
+        Title: <h3>The Hobbit</h3>  
+        ID : 450 <br>
+        Author: J.R.R. Tolkien <br>
+        Category: Fantasy <br>
+        <button class="in" type="text" >Edit</button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+    </div>
+
+    <div class="book">
+        <img alt="Book 10 Cover" class="cover" src="/static/image/book9.jpeg"> <br>
+        Title: <h3>The Diary of a Young Girl</h3> 
+        ID : 451 <br>
+        Author: Anne Frank <br>
+        Category: Autobiography <br>
+        <button class="in" type="text" >Edit</button>
+        <button class="del" type="button" onclick="Delete(this)">Delete</button>
+
+    </div> -->

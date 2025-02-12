@@ -1,0 +1,106 @@
+body{
+
+    background-image: url('/static/image/img7.jpg');
+    background-size: cover ;
+
+}
+
+nav {
+
+    text-align: center;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50% ,-50%);
+    text-align: center;
+    display: inline-block;
+    background-color: bisque;
+    border-radius: 12px;
+    padding: 7px;
+    height: 40px;
+    
+
+    a:link , a:visited {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        border-radius: 15px;
+          
+        padding: 5px;
+        margin: 5px;
+        margin-left: 15px;
+        font-family: Roboto Slab , sans-serif;
+    }
+
+    
+    a:hover, a:active{
+        
+        background-color:gray ;
+        text-decoration: none;
+        border-radius: 10px;
+
+        animation-duration: 5s;
+        transition: 0.3s;
+        animation-iteration-count: infinite;
+    }
+    
+}
+
+
+#edit{
+    border-radius: 10px;
+    background-color: gray;
+
+}
+
+
+
+.content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% ,-50%);
+    background-color:rgba(255,255,255,0.9);
+    border-radius: 20px;
+    width: 600px;
+    height: 500px;
+
+
+}
+.content form{
+    margin: 45px;
+   
+    padding: 0px 40px;
+}
+
+.input{
+margin: 10px;
+height: 30px; 
+border-radius: 20px;
+font-size: 16px;
+width: 250px;
+
+}
+.labels{
+
+    font-size: 25px;
+        
+}
+.submit{
+    margin-left: 140px;
+    margin-top: 15px;
+    width: 150px;
+    height: 40px;
+    border-radius: 25px;
+    background: #2691d9;
+    font-size: 18px;
+    color: white;
+    border: 1px solid;
+    cursor: pointer ;
+}
+.submit:hover{
+
+    border-color:#2691d9 ;
+    transition: .5s;
+}

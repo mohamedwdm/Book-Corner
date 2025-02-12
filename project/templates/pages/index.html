@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/login_style.css'%}">
+    <meta charset="UTF-8">
+
+
+    <title>Book Corner</title>
+</head>
+
+<body >
+
+
+    <div class="name">
+        <h1>Welcome To Our
+            <p style="margin-top: -5px ; color: #555555"> Book corner</p>
+        </h1>
+    </div>
+
+    <div class="center" style="height: 450px;">
+
+        <form id="form" method="post">
+            <h1>Login</h1>
+            {% csrf_token %}
+
+            <div class="txt_field">
+                <label for="UN">User Name</label>
+                <input name="username" data-type='user name' id="UN" type="text" placeholder="                user name" class="basicinput" style="margin-top: 10px;margin-bottom: 10px;">
+                <span style="color: red; margin-left: 80px;"></span>
+
+            </div>
+
+            <div class="txt_field">
+                <label for="Psw">Password</label>
+                <div style="position:absolute ; width: 20px; left: 88%;top: 30%"><img src="/static/image/eye-close.png" id ="img" style="width: 20px;cursor: pointer;" onclick="showpassword()"></div>
+                <input  name="password" data-type='password' id="Psw" type="password" placeholder="                password" class="basicinput" style="margin-bottom: 10px;">
+                <span style="color: red; margin-left: 80px;"></span>
+
+
+            </div> 
+              
+
+            <div class="txt_field" id="hover" style="display: none;"><!-- hover when check box checked-->
+                <label for="Id">ID</label>
+                <input data-type='ID' id="Id" type="text" placeholder="                          id">
+                <span style="color: red; margin-left: 80px;"></span>
+
+            </div> 
+
+            <!-- <div class="forg_pass links"> <a href="#">forget password</a></div> -->
+
+            <!-- <button id="login" type="submit" onclick="handel()"> login </button> -->
+            <input type="submit" value="Login" id="login" style="margin-top: 15px;">
+
+            <!-- <div style="margin-top: 5px;">is admin?<input id="checkbox" type="checkbox" onclick="CheckBox()"></div>  -->
+
+
+            
+            <div class="links signup"> Don't have an account <br><a href="signup.html">sign up</a> &nbsp; here </div>
+
+
+    </div>
+
+    </form>
+
+
+    </div>
+    {% load static %}
+     <script src="{%static 'js/login.js'%}"></script> 
+
+</body>
+
+</html>

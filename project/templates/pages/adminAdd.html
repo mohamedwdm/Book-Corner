@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'css/adminAddStyle.css'%}">
+    <title>Book Corner</title>
+    <meta charset="utf-8">
+    <meta name="description" content="This is online book library , enjoy reading with us ">
+</head>
+
+<body>
+    
+    <nav class="nav">
+        <a id ="AddBook" href="/adminAdd.html"><b>Add Book</b></a>
+        <!-- <a href="deleteBook.html"><b>Delete Book</b></a> -->
+        <!-- <a href="/adminEdit.html"><b>Edit Book</b></a> -->
+        <a href="/adminlist.html"><b>View list</b></a>
+        <a href="/index.html"><b>logout</b></a>
+    </nav>
+    <div class = "content">
+       <h2 style="text-align: center; font-size: 35px;">Add New Book</h2>
+        <form id="form" style="margin-top: 70px; margin-left: 50px;" method="post">
+            {% csrf_token %}
+
+            <label class="labels">Book_ID</label>
+            <input name="book_id" data-type=" Book ID" style = "margin-left: 70px; margin-bottom: 20px;" class="input" type="text" placeholder="   book id" id="bookid" >
+            <span style="color: red; ;"></span>
+
+            <br><br>
+
+            <label class="labels"> Book_Name</label>
+            <input name="book_name"  data-type=" Book Name" style = "margin-left: 45px;margin-bottom: 20px;"  class="input" type="text" placeholder="   book name"   id="bookname" >
+            <span style="color: red;"></span>
+
+            <br><br>
+
+            <label class="labels">Author_Name</label>
+            <input  name="book_author"  data-type=" Author Name" style = "margin-left: 35px;margin-bottom: 20px;" class="input" type="text" placeholder="   author name"  id="authorname">
+            <span style="color: red;"></span>
+
+            <br><br>
+
+            <label class="labels">Category</label>
+            <input name="book_category"  data-type=" category" style = "margin-left: 80px;" class="input" type="text" placeholder="   category"  id="category" >
+            <span style="color: red;;"></span>
+
+            <br><br>
+
+                    
+           
+            <br><br>
+            
+            <input class="submit" type="submit" value="Publish" onclick="storage()">
+        </form>
+    </div>
+   
+    <!-- <script src="adminAdd.js"></script> -->
+</body>
